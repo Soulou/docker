@@ -234,7 +234,7 @@ func (b *buildFile) run() (string, error) {
 	b.config.Image = b.image
 
 	// Create the container and start it
-	c, err := b.builder.Create(b.config)
+	c, err := b.builder.Create(b.config, nil)
 	if err != nil {
 		return "", err
 	}

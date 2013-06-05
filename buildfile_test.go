@@ -36,8 +36,7 @@ func TestBuild(t *testing.T) {
 		&Config{
 			Image: imgID,
 			Cmd:   []string{"cat", "/tmp/passwd"},
-		},
-	)
+		}, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -55,8 +54,7 @@ func TestBuild(t *testing.T) {
 		&Config{
 			Image: imgID,
 			Cmd:   []string{"ls", "-d", "/var/run/sshd"},
-		},
-	)
+		}, nil)
 	if err != nil {
 		t.Fatal(err)
 	}

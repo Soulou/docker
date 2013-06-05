@@ -122,8 +122,7 @@ func TestRuntimeCreate(t *testing.T) {
 	container, err := builder.Create(&Config{
 		Image: GetTestImage(runtime).ID,
 		Cmd:   []string{"ls", "-al"},
-	},
-	)
+	}, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -163,8 +162,7 @@ func TestRuntimeCreate(t *testing.T) {
 	_, err = builder.Create(
 		&Config{
 			Image: GetTestImage(runtime).ID,
-		},
-	)
+		}, nil)
 	if err == nil {
 		t.Fatal("Builder.Create should throw an error when Cmd is missing")
 	}
@@ -173,8 +171,7 @@ func TestRuntimeCreate(t *testing.T) {
 		&Config{
 			Image: GetTestImage(runtime).ID,
 			Cmd:   []string{},
-		},
-	)
+		}, nil)
 	if err == nil {
 		t.Fatal("Builder.Create should throw an error when Cmd is empty")
 	}
@@ -189,8 +186,7 @@ func TestDestroy(t *testing.T) {
 	container, err := NewBuilder(runtime).Create(&Config{
 		Image: GetTestImage(runtime).ID,
 		Cmd:   []string{"ls", "-al"},
-	},
-	)
+	}, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -239,8 +235,7 @@ func TestGet(t *testing.T) {
 	container1, err := builder.Create(&Config{
 		Image: GetTestImage(runtime).ID,
 		Cmd:   []string{"ls", "-al"},
-	},
-	)
+	}, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -249,8 +244,7 @@ func TestGet(t *testing.T) {
 	container2, err := builder.Create(&Config{
 		Image: GetTestImage(runtime).ID,
 		Cmd:   []string{"ls", "-al"},
-	},
-	)
+	}, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -259,8 +253,7 @@ func TestGet(t *testing.T) {
 	container3, err := builder.Create(&Config{
 		Image: GetTestImage(runtime).ID,
 		Cmd:   []string{"ls", "-al"},
-	},
-	)
+	}, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -286,8 +279,7 @@ func findAvailalblePort(runtime *Runtime, port int) (*Container, error) {
 		Image:     GetTestImage(runtime).ID,
 		Cmd:       []string{"sh", "-c", "echo well hello there | nc -l -p " + strPort},
 		PortSpecs: []string{strPort},
-	},
-	)
+	}, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -381,8 +373,7 @@ func TestRestore(t *testing.T) {
 	container1, err := builder.Create(&Config{
 		Image: GetTestImage(runtime1).ID,
 		Cmd:   []string{"ls", "-al"},
-	},
-	)
+	}, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -393,8 +384,7 @@ func TestRestore(t *testing.T) {
 		Image:     GetTestImage(runtime1).ID,
 		Cmd:       []string{"/bin/cat"},
 		OpenStdin: true,
-	},
-	)
+	}, nil)
 	if err != nil {
 		t.Fatal(err)
 	}

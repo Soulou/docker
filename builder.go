@@ -2,6 +2,8 @@ package docker
 
 import (
 	"fmt"
+	"github.com/dotcloud/docker/utils"
+	"io"
 	"os"
 	"path"
 	"time"
@@ -26,7 +28,11 @@ func NewBuilder(runtime *Runtime) *Builder {
 	}
 }
 
-func (builder *Builder) Create(config *Config) (*Container, error) {
+func (builder *Builder) Create(config *Config, out io.Writer) (*Container, error) {
+	if out == nil {
+		out = &utils.NopWriter{}
+	}
+
 	// Lookup image
 	img, err := builder.repositories.LookupImage(config.Image)
 	if err != nil {
@@ -66,6 +72,11 @@ func (builder *Builder) Create(config *Config) (*Container, error) {
 	// This doubles as a barrier to avoid race conditions.
 	if err := os.Mkdir(container.root, 0700); err != nil {
 		return nil, err
+	}
+
+	if len(config.Dns) == 0 && len(builder.runtime.Dns) == 0 && utils.CheckLocalDns() {
+		fmt.Fprintf(out, "WARNING: Docker detected local DNS server on resolv.conf. Using default external servers: %v", defaultDns)
+		builder.runtime.Dns = defaultDns
 	}
 
 	// If custom dns exists, then create a resolv.conf for the container

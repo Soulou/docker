@@ -416,7 +416,7 @@ func postContainersCreate(srv *Server, version float64, w http.ResponseWriter, r
 	if err := json.NewDecoder(r.Body).Decode(config); err != nil {
 		return err
 	}
-	id, err := srv.ContainerCreate(config)
+	id, err := srv.ContainerCreate(config, w)
 	if err != nil {
 		return err
 	}

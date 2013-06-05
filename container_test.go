@@ -24,8 +24,7 @@ func TestIDFormat(t *testing.T) {
 		&Config{
 			Image: GetTestImage(runtime).ID,
 			Cmd:   []string{"/bin/sh", "-c", "echo hello world"},
-		},
-	)
+		}, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -49,8 +48,7 @@ func TestMultipleAttachRestart(t *testing.T) {
 			Image: GetTestImage(runtime).ID,
 			Cmd: []string{"/bin/sh", "-c",
 				"i=1; while [ $i -le 5 ]; do i=`expr $i + 1`;  echo hello; done"},
-		},
-	)
+		}, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -155,8 +153,7 @@ func TestDiff(t *testing.T) {
 		&Config{
 			Image: GetTestImage(runtime).ID,
 			Cmd:   []string{"/bin/rm", "/etc/passwd"},
-		},
-	)
+		}, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -196,8 +193,7 @@ func TestDiff(t *testing.T) {
 		&Config{
 			Image: img.ID,
 			Cmd:   []string{"cat", "/etc/passwd"},
-		},
-	)
+		}, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -223,8 +219,7 @@ func TestDiff(t *testing.T) {
 		&Config{
 			Image: GetTestImage(runtime).ID,
 			Cmd:   []string{"rm", "/bin/httpd"},
-		},
-	)
+		}, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -262,8 +257,7 @@ func TestCommitAutoRun(t *testing.T) {
 		&Config{
 			Image: GetTestImage(runtime).ID,
 			Cmd:   []string{"/bin/sh", "-c", "echo hello > /world"},
-		},
-	)
+		}, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -292,8 +286,7 @@ func TestCommitAutoRun(t *testing.T) {
 	container2, err := builder.Create(
 		&Config{
 			Image: img.ID,
-		},
-	)
+		}, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -342,8 +335,7 @@ func TestCommitRun(t *testing.T) {
 		&Config{
 			Image: GetTestImage(runtime).ID,
 			Cmd:   []string{"/bin/sh", "-c", "echo hello > /world"},
-		},
-	)
+		}, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -374,8 +366,7 @@ func TestCommitRun(t *testing.T) {
 		&Config{
 			Image: img.ID,
 			Cmd:   []string{"cat", "/world"},
-		},
-	)
+		}, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -424,8 +415,7 @@ func TestStart(t *testing.T) {
 			CpuShares: 1000,
 			Cmd:       []string{"/bin/cat"},
 			OpenStdin: true,
-		},
-	)
+		}, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -465,8 +455,7 @@ func TestRun(t *testing.T) {
 		&Config{
 			Image: GetTestImage(runtime).ID,
 			Cmd:   []string{"ls", "-al"},
-		},
-	)
+		}, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -493,8 +482,7 @@ func TestOutput(t *testing.T) {
 		&Config{
 			Image: GetTestImage(runtime).ID,
 			Cmd:   []string{"echo", "-n", "foobar"},
-		},
-	)
+		}, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -518,8 +506,7 @@ func TestKillDifferentUser(t *testing.T) {
 		Image: GetTestImage(runtime).ID,
 		Cmd:   []string{"tail", "-f", "/etc/resolv.conf"},
 		User:  "daemon",
-	},
-	)
+	}, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -565,8 +552,7 @@ func TestKill(t *testing.T) {
 	container, err := NewBuilder(runtime).Create(&Config{
 		Image: GetTestImage(runtime).ID,
 		Cmd:   []string{"cat", "/dev/zero"},
-	},
-	)
+	}, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -613,7 +599,7 @@ func TestExitCode(t *testing.T) {
 	trueContainer, err := builder.Create(&Config{
 		Image: GetTestImage(runtime).ID,
 		Cmd:   []string{"/bin/true", ""},
-	})
+	}, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -628,7 +614,7 @@ func TestExitCode(t *testing.T) {
 	falseContainer, err := builder.Create(&Config{
 		Image: GetTestImage(runtime).ID,
 		Cmd:   []string{"/bin/false", ""},
-	})
+	}, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -650,8 +636,7 @@ func TestRestart(t *testing.T) {
 	container, err := NewBuilder(runtime).Create(&Config{
 		Image: GetTestImage(runtime).ID,
 		Cmd:   []string{"echo", "-n", "foobar"},
-	},
-	)
+	}, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -685,8 +670,7 @@ func TestRestartStdin(t *testing.T) {
 		Cmd:   []string{"cat"},
 
 		OpenStdin: true,
-	},
-	)
+	}, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -765,8 +749,7 @@ func TestUser(t *testing.T) {
 	container, err := builder.Create(&Config{
 		Image: GetTestImage(runtime).ID,
 		Cmd:   []string{"id"},
-	},
-	)
+	}, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -785,8 +768,7 @@ func TestUser(t *testing.T) {
 		Cmd:   []string{"id"},
 
 		User: "root",
-	},
-	)
+	}, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -805,8 +787,7 @@ func TestUser(t *testing.T) {
 		Cmd:   []string{"id"},
 
 		User: "0",
-	},
-	)
+	}, nil)
 	if err != nil || container.State.ExitCode != 0 {
 		t.Fatal(err)
 	}
@@ -825,8 +806,7 @@ func TestUser(t *testing.T) {
 		Cmd:   []string{"id"},
 
 		User: "1",
-	},
-	)
+	}, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -847,8 +827,7 @@ func TestUser(t *testing.T) {
 		Cmd:   []string{"id"},
 
 		User: "daemon",
-	},
-	)
+	}, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -874,8 +853,7 @@ func TestMultipleContainers(t *testing.T) {
 	container1, err := builder.Create(&Config{
 		Image: GetTestImage(runtime).ID,
 		Cmd:   []string{"cat", "/dev/zero"},
-	},
-	)
+	}, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -884,8 +862,7 @@ func TestMultipleContainers(t *testing.T) {
 	container2, err := builder.Create(&Config{
 		Image: GetTestImage(runtime).ID,
 		Cmd:   []string{"cat", "/dev/zero"},
-	},
-	)
+	}, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -932,8 +909,7 @@ func TestStdin(t *testing.T) {
 		Cmd:   []string{"cat"},
 
 		OpenStdin: true,
-	},
-	)
+	}, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -979,8 +955,7 @@ func TestTty(t *testing.T) {
 		Cmd:   []string{"cat"},
 
 		OpenStdin: true,
-	},
-	)
+	}, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1024,8 +999,7 @@ func TestEnv(t *testing.T) {
 	container, err := NewBuilder(runtime).Create(&Config{
 		Image: GetTestImage(runtime).ID,
 		Cmd:   []string{"/usr/bin/env"},
-	},
-	)
+	}, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1106,8 +1080,7 @@ func TestLXCConfig(t *testing.T) {
 		Hostname:  "foobar",
 		Memory:    int64(mem),
 		CpuShares: int64(cpu),
-	},
-	)
+	}, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -1130,8 +1103,7 @@ func BenchmarkRunSequencial(b *testing.B) {
 		container, err := NewBuilder(runtime).Create(&Config{
 			Image: GetTestImage(runtime).ID,
 			Cmd:   []string{"echo", "-n", "foo"},
-		},
-		)
+		}, nil)
 		if err != nil {
 			b.Fatal(err)
 		}
@@ -1165,8 +1137,7 @@ func BenchmarkRunParallel(b *testing.B) {
 			container, err := NewBuilder(runtime).Create(&Config{
 				Image: GetTestImage(runtime).ID,
 				Cmd:   []string{"echo", "-n", "foo"},
-			},
-			)
+			}, nil)
 			if err != nil {
 				complete <- err
 				return

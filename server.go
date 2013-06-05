@@ -91,7 +91,7 @@ func (srv *Server) ImageInsert(name, url, path string, out io.Writer, sf *utils.
 	}
 
 	b := NewBuilder(srv.runtime)
-	c, err := b.Create(config)
+	c, err := b.Create(config, out)
 	if err != nil {
 		return "", err
 	}
@@ -642,7 +642,7 @@ func (srv *Server) ImageImport(src, repo, tag string, in io.Reader, out io.Write
 	return nil
 }
 
-func (srv *Server) ContainerCreate(config *Config) (string, error) {
+func (srv *Server) ContainerCreate(config *Config, out io.Writer) (string, error) {
 
 	if config.Memory > 0 && !srv.runtime.capabilities.MemoryLimit {
 		config.Memory = 0
@@ -652,7 +652,7 @@ func (srv *Server) ContainerCreate(config *Config) (string, error) {
 		config.MemorySwap = -1
 	}
 	b := NewBuilder(srv.runtime)
-	container, err := b.Create(config)
+	container, err := b.Create(config, out)
 	if err != nil {
 		if srv.runtime.graph.IsNotExist(err) {
 			return "", fmt.Errorf("No such image: %s", config.Image)

@@ -1,6 +1,7 @@
 package docker
 
 import (
+	"github.com/dotcloud/docker/utils"
 	"testing"
 )
 
@@ -18,7 +19,7 @@ func TestCreateRm(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	id, err := srv.ContainerCreate(config)
+	id, err := srv.ContainerCreate(config, &utils.NopWriter{})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -51,7 +52,7 @@ func TestCreateStartRestartStopStartKillRm(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	id, err := srv.ContainerCreate(config)
+	id, err := srv.ContainerCreate(config, &utils.NopWriter{})
 	if err != nil {
 		t.Fatal(err)
 	}
